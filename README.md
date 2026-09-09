@@ -12,6 +12,7 @@
 [![CodeIgniter](https://img.shields.io/badge/CodeIgniter-3.x-EF4223?style=flat-square&logo=codeigniter&logoColor=white)](https://codeigniter.com)
 [![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=flat-square&logo=mysql&logoColor=white)](https://mysql.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22681601.svg)](https://doi.org/10.5281/zenodo.22681601)
 [![OSACA](https://img.shields.io/badge/Initiative-OSACA-darkgreen?style=flat-square)](https://farmstaff.ng)
 
 ---
@@ -411,7 +412,7 @@ If you use this software or reference it in academic work, please cite it as:
 ```
 [Author(s)]. (2026). Farm Staff Registry (FSR) [Computer software]. 
 Ondo State Agricultural Commodities Association (OSACA). 
-https://github.com/kennysoft03/Farmstaff_OSACA
+https://doi.org/10.5281/zenodo.22681601
 ```
 
 ### Software Citation (BibTeX)
@@ -423,16 +424,21 @@ https://github.com/kennysoft03/Farmstaff_OSACA
   year         = {2026},
   publisher    = {Ondo State Agricultural Commodities Association},
   url          = {https://github.com/kennysoft03/Farmstaff_OSACA},
+  doi          = {10.5281/zenodo.22681601},
   note         = {Version 1.0.0}
 }
 ```
 
 ### Research Paper Citation
-> *(Update this section when the associated paper is published)*
+> *(Update this section when the associated journal paper is published)*
 ```
 [Author(s)]. (2026). A Digital Trust and Verification Framework for 
-Agricultural Workforce Management. [Journal Name]. DOI: [to be assigned]
+Agricultural Workforce Management. [Journal Name]. 
+https://doi.org/10.5281/zenodo.22681601
 ```
+
+### Zenodo Record
+🔗 **[https://doi.org/10.5281/zenodo.22681601](https://doi.org/10.5281/zenodo.22681601)**
 
 ---
 
