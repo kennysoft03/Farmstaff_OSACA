@@ -5,6 +5,8 @@
 # Environment & credentials — NEVER commit these
 application/config/env-database.php
 application/config/stripe.php
+application/libraries/Mailin.php
+application/libraries/Sendinblue.php
 
 # CI3 cache & logs
 application/cache/*
