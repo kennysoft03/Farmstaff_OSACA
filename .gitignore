@@ -1,0 +1,48 @@
+# =====================================================
+# FARMSTAFF REGISTRY — .gitignore
+# =====================================================
+
+# Environment & credentials — NEVER commit these
+application/config/env-database.php
+application/config/stripe.php
+
+# CI3 cache & logs
+application/cache/*
+application/logs/*
+!application/cache/.htaccess
+!application/cache/index.html
+!application/logs/.htaccess
+
+# User uploads
+uploads/workers/*
+uploads/incidents/*
+uploads/employers/*
+!uploads/workers/.gitkeep
+!uploads/incidents/.gitkeep
+!uploads/employers/.gitkeep
+workings/*
+# Session files
+sessions/*
+!sessions/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+desktop.ini
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# PHP error logs
+*.log
+php_errors.log
+
+# Composer
+vendor/
+composer.lock
+
+# Node (if ever used)
+node_modules/
