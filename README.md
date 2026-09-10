@@ -237,42 +237,26 @@ fs_workers
 
 ### Step 3 — Configure the Database Connection
 
-The database connection is controlled by `application/config/env-database.php`.  
-This file is **excluded from the repository** (listed in `.gitignore`) so you must create it:
-
-```bash
-# Copy the example file
-cp application/config/env-database.example.php application/config/env-database.php
-```
-
-Then edit `application/config/env-database.php` with your local MySQL credentials:
+The database connection is set directly in `application/config/database.php`.  
+Open the file and update the `default` group with your local MySQL credentials:
 
 ```php
-<?php
 $db['default'] = array(
     'hostname'    => '127.0.0.1',   // MySQL host — usually 127.0.0.1 or localhost
     'username'    => 'root',         // Your MySQL username
     'password'    => '',             // Your MySQL password (blank for Laragon default)
-    'database'    => 'farmstaff',    // Must match the database you created in Step 2
+    'database'    => 'farmstaff',    // Must match the database name you created in Step 2
     'dbdriver'    => 'mysqli',
     'dbprefix'    => '',
     'pconnect'    => FALSE,
     'db_debug'    => TRUE,           // Set FALSE in production
-    'cache_on'    => FALSE,
-    'cachedir'    => '',
     'char_set'    => 'utf8mb4',
     'dbcollat'    => 'utf8mb4_unicode_ci',
-    'swap_pre'    => '',
-    'encrypt'     => FALSE,
-    'compress'    => FALSE,
-    'stricton'    => FALSE,
-    'failover'    => array(),
-    'save_queries'=> TRUE,
+    // ... other settings remain unchanged
 );
 ```
 
-> ⚠️ **Never commit `env-database.php`** — it contains your credentials and is  
-> already listed in `.gitignore` to prevent accidental exposure.
+> The database name **must be `farmstaff`** — this matches the schema in `farmstaff.sql`.
 
 ---
 
