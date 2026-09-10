@@ -22,7 +22,6 @@ uploads/employers/*
 !uploads/workers/.gitkeep
 !uploads/incidents/.gitkeep
 !uploads/employers/.gitkeep
-workings/*
 # Session files
 sessions/*
 !sessions/.gitkeep
