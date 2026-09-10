@@ -152,7 +152,7 @@ Before you begin, ensure you have:
 - **PHP 8.1+** with extensions: `mysqli`, `mbstring`, `openssl`, `fileinfo`
 - **MySQL 8.0+**
 - **Apache 2.4+** with `mod_rewrite` enabled
-- **Laragon** (recommended for Windows local development) or XAMPP/WAMP
+- **Laragon** (recommended for Windows local development) or XAMPP / WAMP / LAMP
 
 ---
 
@@ -160,107 +160,243 @@ Before you begin, ensure you have:
 
 ```bash
 git clone https://github.com/kennysoft03/Farmstaff_OSACA.git
-cd Farmstaff_OSACA
 ```
 
-For **Laragon**, place the project in:
+For **Laragon on Windows**, clone directly into the Laragon `www` folder so the virtual host is created automatically:
+
 ```
 C:\laragon\www\Farmstaff\
 ```
 
+The cloned folder contains the following **in the root directory**:
+
+```
+Farmstaff/
+├── system/              ← CodeIgniter 3 system folder (included in repo)
+├── application/         ← Application code
+├── assets/              ← Public CSS, JS, images
+├── assetsa/             ← Admin template assets
+├── workings/            ← Design mockups
+├── farmstaff.sql        ← Database schema — import this
+├── index.php            ← CI3 front controller
+└── .htaccess            ← URL rewriting
+```
+
+> ✅ The **CodeIgniter 3 `system/` folder is included** in the root directory of  
+> this repository. You do not need to download CodeIgniter separately.
+
 ---
 
-### Step 2 — Create the Database
+### Step 2 — Create and Import the Database
 
-Open HeidiSQL, phpMyAdmin or MySQL CLI and run:
+#### 2a — Create the database
+
+Open **HeidiSQL**, **phpMyAdmin**, or MySQL CLI and create the database.  
+The database **must be named exactly** as specified in `application/config/database.php`:
 
 ```sql
-CREATE DATABASE farmstaff 
-  CHARACTER SET utf8mb4 
+CREATE DATABASE farmstaff
+  CHARACTER SET utf8mb4
   COLLATE utf8mb4_unicode_ci;
 ```
 
-Then import the schema:
+> The required database name is **`farmstaff`** — this must match exactly.
+
+#### 2b — Import the schema
+
+The SQL file is located at the **root of the repository**: `farmstaff.sql`
+
+**Option A — HeidiSQL:**
+1. Open HeidiSQL and connect to your MySQL server
+2. Select the `farmstaff` database in the left panel
+3. Click **File → Run SQL file**
+4. Select `farmstaff.sql` from the project root folder
+5. Click **Open** — all 13 tables will be created automatically
+
+**Option B — phpMyAdmin:**
+1. Select the `farmstaff` database
+2. Click the **Import** tab
+3. Choose `farmstaff.sql` from the project root
+4. Click **Go**
+
+**Option C — MySQL CLI:**
 ```bash
-mysql -u root -p farmstaff < farmstaff_db.sql
+mysql -u root -p farmstaff < farmstaff.sql
 ```
 
-Or use HeidiSQL: **File → Run SQL file** → select `farmstaff_db.sql`
+After import you should see these 13 tables:
+```
+fs_admin_users      fs_attendance        fs_audit_logs
+fs_background_checks  fs_employers       fs_farm_ratings
+fs_incidents        fs_notifications     fs_skills
+fs_trust_score_log  fs_work_history      fs_worker_ratings
+fs_workers
+```
 
 ---
 
 ### Step 3 — Configure the Database Connection
 
-Copy the example config file:
+The database connection is controlled by `application/config/env-database.php`.  
+This file is **excluded from the repository** (listed in `.gitignore`) so you must create it:
+
 ```bash
+# Copy the example file
 cp application/config/env-database.example.php application/config/env-database.php
 ```
 
-Edit `application/config/env-database.php` with your database credentials:
+Then edit `application/config/env-database.php` with your local MySQL credentials:
 
 ```php
+<?php
 $db['default'] = array(
-    'hostname' => '127.0.0.1',
-    'username' => 'root',        // your MySQL username
-    'password' => '',            // your MySQL password
-    'database' => 'farmstaff',   // database name
-    'dbdriver' => 'mysqli',
-    // ... (other settings remain unchanged)
+    'hostname'    => '127.0.0.1',   // MySQL host — usually 127.0.0.1 or localhost
+    'username'    => 'root',         // Your MySQL username
+    'password'    => '',             // Your MySQL password (blank for Laragon default)
+    'database'    => 'farmstaff',    // Must match the database you created in Step 2
+    'dbdriver'    => 'mysqli',
+    'dbprefix'    => '',
+    'pconnect'    => FALSE,
+    'db_debug'    => TRUE,           // Set FALSE in production
+    'cache_on'    => FALSE,
+    'cachedir'    => '',
+    'char_set'    => 'utf8mb4',
+    'dbcollat'    => 'utf8mb4_unicode_ci',
+    'swap_pre'    => '',
+    'encrypt'     => FALSE,
+    'compress'    => FALSE,
+    'stricton'    => FALSE,
+    'failover'    => array(),
+    'save_queries'=> TRUE,
 );
 ```
 
-> ⚠️ **Never commit `env-database.php`** — it is listed in `.gitignore`
+> ⚠️ **Never commit `env-database.php`** — it contains your credentials and is  
+> already listed in `.gitignore` to prevent accidental exposure.
 
 ---
 
 ### Step 4 — Set the Base URL
 
-Edit `application/config/config.php`:
+Edit `application/config/config.php` and update the `base_url` to point to  
+**wherever the application is located** on your server:
 
 ```php
+// For Laragon local development:
 $config['base_url'] = 'http://farmstaff.test:9090/';
+
+// For XAMPP local development:
+$config['base_url'] = 'http://localhost/Farmstaff/';
+
+// For a live server with a domain:
+$config['base_url'] = 'https://yourdomain.com/';
+
+// For a live server in a subdirectory:
+$config['base_url'] = 'https://yourdomain.com/farmstaff/';
 ```
 
-Replace with your actual local or production URL.
+> The `base_url` must end with a trailing slash `/` and must exactly match  
+> the URL you use to access the application in your browser.
 
 ---
 
 ### Step 5 — Set Directory Permissions
 
-Ensure these directories are writable:
+Ensure these directories are **writable** by the web server:
 
+**Linux / macOS / cPanel:**
 ```bash
 chmod 755 sessions/
 chmod 755 uploads/
 chmod 755 uploads/workers/
+chmod 755 uploads/workers/ids/
 chmod 755 uploads/incidents/
 chmod 755 uploads/employers/
 chmod 755 application/logs/
+chmod 755 application/cache/
 ```
 
-On **Windows/Laragon**, these folders are writable by default.
+**Windows (Laragon / XAMPP):** These folders are writable by default — no action needed.
 
 ---
 
-### Step 6 — Configure Laragon Virtual Host (Windows)
+### Step 6 — Configure Virtual Host (Laragon on Windows)
 
-In Laragon, the virtual host is created automatically when you place the project in `C:\laragon\www\Farmstaff\`.
+If using **Laragon**, the virtual host `farmstaff.test` is created automatically  
+when the project folder is inside `C:\laragon\www\`.
 
-Add to your `hosts` file (`C:\Windows\System32\drivers\etc\hosts`):
+Add the following line to your `hosts` file:
+
 ```
+# Location: C:\Windows\System32\drivers\etc\hosts
 127.0.0.1  farmstaff.test
 ```
 
+> To edit the hosts file on Windows, open Notepad as Administrator and open the file above.
+
 ---
 
-### Step 7 — Create the Default Admin User
+### Step 7 — Verify CodeIgniter System Folder
 
-Visit this URL in your browser:
+Open `index.php` in the root of the project and confirm these two lines:
+
+```php
+$system_path      = 'system';       // ← CI3 system folder in root directory
+$application_folder = 'application'; // ← Application folder in root directory
+```
+
+Since the `system/` folder is **included in this repository at the root level**,  
+these default values are correct and require no changes.
+
+---
+
+### Step 8 — Create the Default Admin User
+
+Start your web server (Laragon / XAMPP) and visit:
+
 ```
 http://farmstaff.test:9090/admin/create-admin
 ```
 
-This creates the default administrator account.
+You will see a confirmation message. The default admin account is created:
+
+| Field | Value |
+|-------|-------|
+| Username | `admin` |
+| Password | `Admin@1234` |
+
+> ⚠️ **Change this password immediately** after your first login at `/admin`
+
+---
+
+### Step 9 — Test the Installation
+
+Visit the following URLs to confirm everything is working:
+
+| Test | URL | Expected Result |
+|------|-----|----------------|
+| Public site | `http://farmstaff.test:9090/` | Homepage loads with green hero banner |
+| Admin login | `http://farmstaff.test:9090/admin` | Admin login page appears |
+| Employer register | `http://farmstaff.test:9090/register` | Registration form loads |
+| 404 check | `http://farmstaff.test:9090/xyz` | Branded 404 page |
+
+If the homepage shows a **database error**, recheck Step 3 (env-database.php credentials).  
+If you see **"Your system folder path does not appear to be set correctly"**, recheck Step 7.
+
+---
+
+### Common Issues & Fixes
+
+| Problem | Cause | Fix |
+|---------|-------|-----|
+| White page / 500 error | PHP version < 8.1 | Update PHP to 8.1+ |
+| Database connection error | Wrong credentials in env-database.php | Recheck Step 3 |
+| "system folder not found" | system/ folder missing or wrong path | Confirm system/ is in root, check index.php Step 7 |
+| CSS/JS not loading | Wrong base_url | Update base_url in config.php Step 4 |
+| 404 on all pages | mod_rewrite not enabled | Enable mod_rewrite in Apache |
+| Upload fails | uploads/ not writable | Set permissions Step 5 |
+| Session errors | sessions/ not writable | Set permissions Step 5 |
+| Admin login fails | Admin not created | Run `/admin/create-admin` Step 8 |
 
 ---
 
@@ -269,7 +405,9 @@ This creates the default administrator account.
 ### Local Development (Laragon)
 
 1. Start **Laragon** and ensure Apache and MySQL are running
-2. Visit: `http://farmstaff.test:9090/`
+2. Clone the repo into `C:\laragon\www\Farmstaff\`
+3. Complete the installation steps above (Steps 1–9)
+4. Visit: `http://farmstaff.test:9090/`
 
 ### Default Login Credentials
 
