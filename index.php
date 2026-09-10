@@ -99,7 +99,7 @@ switch (ENVIRONMENT)
  *
  * Shared with the parent lacampagnetropicana application (CI 3.1.11).
  */
-	$system_path = '../system';
+	$system_path = 'system';
 
 /*
  *---------------------------------------------------------------
