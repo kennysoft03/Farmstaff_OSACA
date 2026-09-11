@@ -39,19 +39,53 @@ class Employer extends CI_Controller
     // -------------------------------------------------------
     private function do_upload($field, $dest_path, $allowed = 'jpg|jpeg|png|gif', $max_size = 2048)
     {
-        if (empty($_FILES[$field]['name'])) return null;
-        if (!is_dir(FCPATH . $dest_path)) mkdir(FCPATH . $dest_path, 0755, true);
-        $config = [
-            'upload_path'   => FCPATH . $dest_path,
-            'allowed_types' => $allowed,
-            'max_size'      => $max_size,
-            'encrypt_name'  => true,
-        ];
-        $this->upload->initialize($config);
-        if ($this->upload->do_upload($field)) {
-            return $dest_path . $this->upload->data('file_name');
+        if (empty($_FILES[$field]['name']) || $_FILES[$field]['error'] !== UPLOAD_ERR_OK) {
+            return null;
         }
-        $this->session->set_flashdata('upload_error', $this->upload->display_errors('', ''));
+
+        // Create destination directory if it doesn't exist
+        $full_path = FCPATH . $dest_path;
+        if (!is_dir($full_path)) {
+            mkdir($full_path, 0755, true);
+        }
+
+        // Validate file type by MIME
+        $finfo     = new finfo(FILEINFO_MIME_TYPE);
+        $mime      = $finfo->file($_FILES[$field]['tmp_name']);
+        $allowed_mimes = [
+            'jpg'  => 'image/jpeg',
+            'jpeg' => 'image/jpeg',
+            'png'  => 'image/png',
+            'gif'  => 'image/gif',
+            'pdf'  => 'application/pdf',
+            'doc'  => 'application/msword',
+            'docx' => 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        ];
+        $ext_map   = array_flip($allowed_mimes);
+        $ext       = pathinfo($_FILES[$field]['name'], PATHINFO_EXTENSION);
+        $ext       = strtolower($ext);
+        $allowed_arr = explode('|', $allowed);
+
+        if (!in_array($ext, $allowed_arr)) {
+            log_message('error', 'Upload rejected — extension not allowed: ' . $ext);
+            return false;
+        }
+
+        // Validate size
+        if ($_FILES[$field]['size'] > $max_size * 1024) {
+            log_message('error', 'Upload rejected — file too large: ' . $_FILES[$field]['size']);
+            return false;
+        }
+
+        // Generate unique filename
+        $new_name = bin2hex(random_bytes(16)) . '.' . $ext;
+        $dest_file = $full_path . $new_name;
+
+        if (move_uploaded_file($_FILES[$field]['tmp_name'], $dest_file)) {
+            return $dest_path . $new_name;
+        }
+
+        log_message('error', 'move_uploaded_file failed for field: ' . $field . ' to: ' . $dest_file);
         return false;
     }
 
@@ -240,94 +274,109 @@ class Employer extends CI_Controller
         $eid = $this->employer['id'];
 
         if ($this->input->post()) {
-            $this->form_validation->set_rules('firstname', 'First Name', 'required|trim');
-            $this->form_validation->set_rules('lastname',  'Last Name',  'required|trim');
-            $this->form_validation->set_rules('phone',     'Phone',      'required|trim|min_length[10]|is_unique[fs_workers.phone]');
-            $this->form_validation->set_rules('gender',    'Gender',     'required');
-            $this->form_validation->set_rules('role',      'Role/Position', 'required|trim');
-            $this->form_validation->set_rules('start_date','Start Date', 'required');
+            $this->form_validation->set_rules('firstname',  'First Name',    'required|trim');
+            $this->form_validation->set_rules('lastname',   'Last Name',     'required|trim');
+            $this->form_validation->set_rules('phone',      'Phone',         'required|trim|min_length[10]|is_unique[fs_workers.phone]');
+            $this->form_validation->set_rules('gender',     'Gender',        'required');
+            $this->form_validation->set_rules('role',       'Role/Position', 'required|trim');
+            $this->form_validation->set_rules('start_date', 'Start Date',    'required');
             $this->form_validation->set_message('is_unique', 'A worker with that phone number is already registered in the system.');
 
             if ($this->form_validation->run() === FALSE) {
                 $this->data['error'] = validation_errors(' ', ' | ');
             } else {
-                // Upload photo
-                $photo = null;
-                if (!empty($_FILES['photo']['name'])) {
+                // --- Photo upload ---
+                $photo  = null;
+                $upload_error = null;
+
+                if (!empty($_FILES['photo']['name']) && $_FILES['photo']['error'] === UPLOAD_ERR_OK) {
                     $uploaded = $this->do_upload('photo', UPLOAD_WORKERS);
                     if ($uploaded === false) {
-                        $this->data['error'] = 'Photo upload failed: ' . $this->session->flashdata('upload_error');
-                        goto render_register_worker;
+                        $upload_error = 'Photo upload failed. Please use a JPEG or PNG image under 2MB.';
+                    } else {
+                        $photo = $uploaded;
                     }
-                    $photo = $uploaded;
                 }
 
-                // Upload ID doc
-                $id_doc = null;
-                if (!empty($_FILES['id_document']['name'])) {
-                    $uploaded = $this->do_upload('id_document', UPLOAD_WORKERS . 'ids/', 'jpg|jpeg|png|pdf', 3072);
-                    if ($uploaded !== false) $id_doc = $uploaded;
-                }
+                if ($upload_error) {
+                    $this->data['error'] = $upload_error;
+                } else {
+                    // --- ID document upload ---
+                    $id_doc = null;
+                    if (!empty($_FILES['id_document']['name']) && $_FILES['id_document']['error'] === UPLOAD_ERR_OK) {
+                        $uploaded = $this->do_upload('id_document', UPLOAD_WORKERS . 'ids/', 'jpg|jpeg|png|pdf', 3072);
+                        if ($uploaded) $id_doc = $uploaded;
+                    }
 
-                $worker_data = [
-                    'firstname'     => $this->input->post('firstname', TRUE),
-                    'lastname'      => $this->input->post('lastname', TRUE),
-                    'othername'     => $this->input->post('othername', TRUE),
-                    'gender'        => $this->input->post('gender', TRUE),
-                    'dob'           => $this->input->post('dob', TRUE) ?: null,
-                    'phone'         => $this->input->post('phone', TRUE),
-                    'alt_phone'     => $this->input->post('alt_phone', TRUE),
-                    'email'         => $this->input->post('email', TRUE),
-                    'address'       => $this->input->post('address', TRUE),
-                    'lga'           => $this->input->post('lga', TRUE),
-                    'state'         => $this->input->post('state', TRUE) ?: 'Ondo',
-                    'id_type'       => $this->input->post('id_type', TRUE),
-                    'id_number'     => $this->input->post('id_number', TRUE),
-                    'photo'         => $photo,
-                    'id_document'   => $id_doc,
-                    'registered_by' => $eid,
-                ];
-                $worker_id = $this->fsmodel->register_worker($worker_data);
+                    // --- Build worker record ---
+                    $worker_data = [
+                        'firstname'     => $this->input->post('firstname',  TRUE),
+                        'lastname'      => $this->input->post('lastname',   TRUE),
+                        'othername'     => $this->input->post('othername',  TRUE),
+                        'gender'        => $this->input->post('gender',     TRUE),
+                        'dob'           => $this->input->post('dob',        TRUE) ?: null,
+                        'phone'         => $this->input->post('phone',      TRUE),
+                        'alt_phone'     => $this->input->post('alt_phone',  TRUE),
+                        'email'         => $this->input->post('email',      TRUE),
+                        'address'       => $this->input->post('address',    TRUE),
+                        'lga'           => $this->input->post('lga',        TRUE),
+                        'state'         => $this->input->post('state',      TRUE) ?: 'Ondo',
+                        'id_type'       => $this->input->post('id_type',    TRUE),
+                        'id_number'     => $this->input->post('id_number',  TRUE),
+                        'photo'         => $photo,
+                        'id_document'   => $id_doc,
+                        'registered_by' => $eid,
+                    ];
 
-                if ($worker_id) {
-                    // Auto-create work history entry
-                    $this->fsmodel->add_work_history([
-                        'worker_id'   => $worker_id,
-                        'employer_id' => $eid,
-                        'role'        => $this->input->post('role', TRUE),
-                        'start_date'  => $this->input->post('start_date', TRUE),
-                        'is_current'  => 1,
-                        'status'      => 'active',
-                    ]);
+                    $worker_id = $this->fsmodel->register_worker($worker_data);
 
-                    // Add skills if provided
-                    $skills = $this->input->post('skills', TRUE);
-                    if (!empty($skills)) {
-                        foreach ((array)$skills as $skill) {
-                            if (trim($skill)) {
-                                $this->fsmodel->add_skill([
-                                    'worker_id'   => $worker_id,
-                                    'employer_id' => $eid,
-                                    'skill_name'  => trim($skill),
-                                    'proficiency' => 'intermediate',
-                                    'rating'      => 3,
-                                ]);
+                    if ($worker_id) {
+                        // Auto-create work history entry
+                        $this->fsmodel->add_work_history([
+                            'worker_id'   => $worker_id,
+                            'employer_id' => $eid,
+                            'role'        => $this->input->post('role',       TRUE),
+                            'start_date'  => $this->input->post('start_date', TRUE),
+                            'is_current'  => 1,
+                            'status'      => 'active',
+                        ]);
+
+                        // Add skills if provided
+                        $skills = $this->input->post('skills', TRUE);
+                        if (!empty($skills)) {
+                            foreach ((array)$skills as $skill) {
+                                $skill = trim($skill);
+                                if ($skill) {
+                                    $this->fsmodel->add_skill([
+                                        'worker_id'   => $worker_id,
+                                        'employer_id' => $eid,
+                                        'skill_name'  => $skill,
+                                        'proficiency' => 'intermediate',
+                                        'rating'      => 3,
+                                    ]);
+                                }
                             }
                         }
-                    }
 
-                    $worker = $this->fsmodel->get_worker_by_id($worker_id);
-                    $this->fsmodel->log_action('employer', $eid, $this->employer['farm_name'],
-                        'register_worker', 'workers', "Registered worker: {$worker['firstname']} {$worker['lastname']}", $worker_id, 'worker');
-                    $this->session->set_flashdata('success', "Worker {$worker['firstname']} {$worker['lastname']} registered successfully with ID: {$worker['worker_id']}");
-                    redirect('dashboard/worker/' . $worker_id);
-                } else {
-                    $this->data['error'] = 'Worker registration failed. Please try again.';
+                        $worker = $this->fsmodel->get_worker_by_id($worker_id);
+                        $this->fsmodel->log_action(
+                            'employer', $eid, $this->employer['farm_name'],
+                            'register_worker', 'workers',
+                            "Registered worker: {$worker['firstname']} {$worker['lastname']}",
+                            $worker_id, 'worker'
+                        );
+                        $this->session->set_flashdata('success',
+                            "Worker {$worker['firstname']} {$worker['lastname']} registered successfully. Registry ID: {$worker['worker_id']}"
+                        );
+                        redirect('dashboard/worker/' . $worker_id);
+                        return;
+                    } else {
+                        $this->data['error'] = 'Worker registration failed. Please try again.';
+                    }
                 }
             }
         }
 
-        render_register_worker:
         $this->data['page_title'] = 'Register Worker';
         $this->data['active_nav'] = 'workers';
         $this->data['lgas']       = $this->_ondo_lgas();

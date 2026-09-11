@@ -1,7 +1,7 @@
 # Farm Staff Registry — Technical Documentation
 
 **Version:** 1.0.0  
-**Organisation Case Study:** Ondo State Agricultural Commodities Association (OSACA)  
+**For:** Farmers and Agricultural Employers in Ondo State, Nigeria  
 **Platform:** Farm Staff Registry (FSR)  
 **Base URL:** http://farmstaff.test:9090/  
 **Document Date:** September 2026  
@@ -32,9 +32,9 @@
 
 ### 1.1 Purpose
 
-The **Farm Staff Registry (FSR)** is a centralised digital platform designed for the  
-**Ondo State Agricultural Commodities Association (OSACA)** to enable agricultural  
-employers to register, verify, monitor and manage farm workers across Ondo State, Nigeria.
+The **Farm Staff Registry (FSR)** is a centralised digital platform built for  
+**agricultural employers and farm workers across Ondo State, Nigeria** to enable  
+employers to register, verify, monitor and manage farm workers.
 
 The system addresses the documented information asymmetry in informal agricultural  
 labour markets — where employers have no reliable mechanism to verify a prospective  
@@ -598,7 +598,7 @@ See [Section 8](#8-farm-reputation-score-algorithm) for full algorithm.
 | Route | Method | Action | Auth |
 |-------|--------|--------|------|
 | `/` | GET | Homepage with platform stats | None |
-| `/about` | GET | About OSACA and FSR | None |
+| `/about` | GET | About the Farm Staff Registry | None |
 | `/for-transparency` | GET | Transparency commitment page | None |
 | `/resources` | GET | Help guides and resources | None |
 | `/login` | GET/POST | Employer login | None |
@@ -1062,7 +1062,7 @@ Delete: farmstaff_db.sql  (or move outside web root)
 ### 12.1 Role Hierarchy
 
 ```
-OSACA Superadmin
+Platform Superadmin
     │
     ├── Admin
     │     └── Full platform management
@@ -1183,7 +1183,7 @@ Displayed in layout headers, auto-dismissed after 5 seconds via JS.
 define('SITE_NAME',         'Farm Staff Registry');
 define('SITE_TAGLINE',      'Trust. Transparency. Better Farms.');
 define('SITE_EMAIL',        'info@farmstaff.ng');
-define('OSACA_NAME',        'Ondo State Agricultural Commodities Association (OSACA)');
+define('OSACA_NAME',        'Ondo State Farm Staff Registry');
 define('UPLOAD_WORKERS',    'uploads/workers/');
 define('UPLOAD_INCIDENTS',  'uploads/incidents/');
 define('UPLOAD_EMPLOYERS',  'uploads/employers/');
@@ -1254,4 +1254,4 @@ public function get_attendance_summary($worker_id, $employer_id)
 ---
 
 *End of Technical Documentation*  
-*Farm Staff Registry v1.0.0 — OSACA, Ondo State, Nigeria*
+*Farm Staff Registry v1.0.0 — For Farmers in Ondo State, Nigeria*

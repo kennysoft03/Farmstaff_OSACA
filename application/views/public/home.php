@@ -204,12 +204,12 @@ $disp_rating     = ((float)$stats['avg_farm_rating'] < 0.1) ? '4.6 / 5' : $avg_r
   </div>
 </section>
 
-<!-- ===== OSACA BANNER ===== -->
+<!-- ===== PLATFORM BANNER ===== -->
 <section style="padding:40px 0;background:var(--gray-100);border-top:1px solid var(--gray-200);">
   <div class="container" style="text-align:center;">
     <p style="color:var(--gray-600);font-size:.9rem;margin:0;">
-      An initiative of the <strong style="color:var(--green-dark);"><?php echo OSACA_NAME; ?></strong>
-      &nbsp;|&nbsp; Promoting trust, transparency and accountability in agricultural employment across Ondo State.
+      A digital platform for <strong style="color:var(--green-dark);">Farmers and Agricultural Employers in Ondo State, Nigeria</strong>
+      &nbsp;|&nbsp; Promoting trust, transparency and accountability in agricultural employment.
     </p>
   </div>
 </section>

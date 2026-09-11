@@ -13,7 +13,7 @@
 [![MySQL](https://img.shields.io/badge/MySQL-8.0+-4479A1?style=flat-square&logo=mysql&logoColor=white)](https://mysql.com)
 [![License](https://img.shields.io/badge/License-MIT-green?style=flat-square)](LICENSE)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.22681601.svg)](https://doi.org/10.5281/zenodo.22681601)
-[![OSACA](https://img.shields.io/badge/Initiative-OSACA-darkgreen?style=flat-square)](https://farmstaff.ng)
+[![Ondo State](https://img.shields.io/badge/For-Farmers%20in%20Ondo%20State%20Nigeria-darkgreen?style=flat-square)](https://farmstaff.ng)
 
 ---
 
@@ -25,7 +25,7 @@
 
 ## 📌 What is Farm Staff Registry?
 
-The **Farm Staff Registry (FSR)** is a web-based platform developed for the **Ondo State Agricultural Commodities Association (OSACA)** that enables agricultural employers to:
+The **Farm Staff Registry (FSR)** is a web-based platform built for **agricultural employers and farm workers in Ondo State, Nigeria** that enables employers to:
 
 - **Register** farm workers with verified identity documents and photographs
 - **Track** complete employment history across multiple farms
@@ -496,7 +496,7 @@ This platform was developed as part of research into **digital trust frameworks 
 
 > **Title:** *"A Digital Trust and Verification Framework for Agricultural Workforce Management: Design and Implementation of the Farm Staff Registry System"*
 >
-> **Organisation:** Ondo State Agricultural Commodities Association (OSACA), Ondo State, Nigeria
+> **Organisation:** Farm Staff Registry — For Farmers in Ondo State, Nigeria
 >
 > **Problem Domain:** Informal agricultural labour markets, information asymmetry, workforce accountability
 >
@@ -533,18 +533,18 @@ If you use this software or reference it in academic work, please cite it as:
 ### Software Citation (APA)
 ```
 [Author(s)]. (2026). Farm Staff Registry (FSR) [Computer software]. 
-Ondo State Agricultural Commodities Association (OSACA). 
+Farm Staff Registry — For Farmers in Ondo State, Nigeria. 
 https://doi.org/10.5281/zenodo.22681601
 ```
 
 ### Software Citation (BibTeX)
 ```bibtex
 @software{farmstaff_registry_2026,
-  author       = {{OSACA Development Team}},
+  author       = {{Farm Staff Registry Development Team}},
   title        = {{Farm Staff Registry (FSR): A Centralised Digital Platform 
                    for Agricultural Workforce Verification and Trust Scoring}},
   year         = {2026},
-  publisher    = {Ondo State Agricultural Commodities Association},
+  publisher    = {Farm Staff Registry — For Farmers in Ondo State, Nigeria},
   url          = {https://github.com/kennysoft03/Farmstaff_OSACA},
   doi          = {10.5281/zenodo.22681601},
   note         = {Version 1.0.0}
@@ -617,7 +617,7 @@ Farmstaff/
 ```
 MIT License
 
-Copyright (c) 2026 Ondo State Agricultural Commodities Association (OSACA)
+Copyright (c) 2026 Farm Staff Registry — For Farmers in Ondo State, Nigeria
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -642,8 +642,6 @@ THE SOFTWARE.
 
 <div align="center">
 
-**Farm Staff Registry** — Built with ❤️ for the farmers and workers of Ondo State
-
-*An initiative of the [Ondo State Agricultural Commodities Association (OSACA)](https://osaca.ng)*
+**Farm Staff Registry** — Built with ❤️ for the farmers and workers of Ondo State, Nigeria
 
 </div>

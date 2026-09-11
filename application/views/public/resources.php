@@ -41,7 +41,7 @@
 <section style="background:var(--green-pale);padding:48px 0;text-align:center;">
   <div class="container">
     <h3>Need Personal Assistance?</h3>
-    <p style="color:var(--gray-600);margin-bottom:24px;">Contact OSACA support for help with your account or for platform training.</p>
+    <p style="color:var(--gray-600);margin-bottom:24px;">Contact the Farm Staff Registry support team for help with your account or for platform training.</p>
     <a href="<?php echo site_url('about'); ?>#contact" class="btn btn-primary btn-pill btn-lg">Contact Support</a>
   </div>
 </section>

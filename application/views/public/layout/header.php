@@ -6,9 +6,9 @@
 
 <!-- ===== Primary SEO ===== -->
 <title><?php echo isset($page_title) ? htmlspecialchars($page_title) . ' — ' : ''; echo SITE_NAME; ?> | <?php echo SITE_TAGLINE; ?></title>
-<meta name="description" content="Farm Staff Registry by OSACA — the trusted platform for Ondo State agricultural employers to register workers, verify skills, track attendance, run background checks and build safer, more accountable farm workplaces.">
-<meta name="keywords" content="farm staff registry, farm workers Ondo State, agricultural employment Nigeria, worker background check, OSACA, farm worker verification, hire farm workers, Ondo farm labour, agric workforce management">
-<meta name="author" content="Ondo State Agricultural Commodities Association (OSACA)">
+<meta name="description" content="Farm Staff Registry — the trusted platform for agricultural employers and farm workers in Ondo State, Nigeria. Register workers, verify skills, track attendance, run background checks and build safer, more accountable farm workplaces.">
+<meta name="keywords" content="farm staff registry, farm workers Ondo State, agricultural employment Nigeria, worker background check, farm worker verification, hire farm workers, Ondo farm labour, agric workforce management">
+<meta name="author" content="Farm Staff Registry — Ondo State, Nigeria">
 <meta name="robots" content="index, follow">
 <meta name="theme-color" content="#1a5c2a">
 <link rel="canonical" href="<?php echo current_url(); ?>">

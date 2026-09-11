@@ -24,7 +24,7 @@
       <div style="padding:40px;text-align:center;color:var(--gray-600);">✅ No ratings found.</div>
     <?php else: ?>
       <table class="table">
-        <thead><tr><th>Farm</th><th>Rating</th><th>Conditions</th><th>Safety</th><th>Payment</th><th>Treatment</th><th>Comment</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
+        <thead><tr><th>Farm</th><th>Rating</th><th>Conditions</th><th>Safety</th><th>Payment</th><th>Treatment</th><th>Status</th><th>Date</th><th>Action</th></tr></thead>
         <tbody>
           <?php foreach ($ratings as $r): ?>
           <tr>
@@ -34,7 +34,7 @@
             <td style="text-align:center;"><?php echo $r['safety']??'—'; ?></td>
             <td style="text-align:center;"><?php echo $r['payment_promptness']??'—'; ?></td>
             <td style="text-align:center;"><?php echo $r['treatment']??'—'; ?></td>
-            <td style="font-size:.8rem;max-width:180px;"><?php echo htmlspecialchars(substr($r['review_text']??'',0,60)); ?></td>
+           
             <td><span class="badge <?php echo $r['status']==='approved'?'badge-success':($r['status']==='pending'?'badge-warning':'badge-danger'); ?>"><?php echo $r['status']; ?></span></td>
             <td style="font-size:.8rem;"><?php echo date('d M Y',strtotime($r['created_at'])); ?></td>
             <td>

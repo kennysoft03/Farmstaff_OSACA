@@ -6,7 +6,7 @@
 
     <div class="alert alert-warning alert-dismissible fade show">
       <div class="alert-icon"><i class="flaticon-warning"></i></div>
-      <div class="alert-text"><strong>Important:</strong> Incident reports are reviewed by OSACA administrators before they affect a worker's record. Please ensure all information is accurate and truthful.</div>
+      <div class="alert-text"><strong>Important:</strong> Incident reports are reviewed by platform administrators before they affect a worker's record. Please ensure all information is accurate and truthful.</div>
       <div class="alert-close"><button class="close" data-dismiss="alert"><span><i class="la la-close"></i></span></button></div>
     </div>
 

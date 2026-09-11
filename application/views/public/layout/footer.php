@@ -5,8 +5,7 @@
   <div class="footer-grid">
     <div class="footer-brand">
       <img src="<?php echo base_url('assets/images/logo_white.png'); ?>" alt="<?php echo SITE_NAME; ?>">
-      <p><?php echo OSACA_NAME; ?><br>
-      A centralized platform to help agricultural employers register, verify and manage farm workers across Ondo State.</p>
+      <p>A centralised digital platform for agricultural employers and farm workers across Ondo State, Nigeria — helping farmers register workers, verify skills, track performance and build trusted workplaces.</p>
       <p style="margin-top:10px;opacity:.7;font-size:.8rem;">📧 <?php echo SITE_EMAIL; ?><br>📞 <?php echo SITE_PHONE; ?></p>
     </div>
     <div class="footer-col">
@@ -32,7 +31,7 @@
     </div>
   </div>
   <div class="footer-bottom">
-    <span>© <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> — <?php echo OSACA_NAME; ?>. All rights reserved.</span>
+    <span>© <?php echo date('Y'); ?> <?php echo SITE_NAME; ?> — For Farmers in Ondo State, Nigeria. All rights reserved.</span>
     <span>Built with trust &amp; transparency for Ondo State farmers.</span>
   </div>
 </footer>

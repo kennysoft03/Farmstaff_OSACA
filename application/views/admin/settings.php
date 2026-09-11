@@ -57,7 +57,7 @@
     <div class="card-body">
       <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:12px;font-size:.88rem;">
         <div><span style="color:var(--gray-600);">Platform:</span> <strong><?php echo SITE_NAME; ?></strong></div>
-        <div><span style="color:var(--gray-600);">Organisation:</span> <strong>OSACA</strong></div>
+        <div><span style="color:var(--gray-600);">For:</span> <strong>Farmers in Ondo State, Nigeria</strong></div>
         <div><span style="color:var(--gray-600);">PHP Version:</span> <strong><?php echo phpversion(); ?></strong></div>
         <div><span style="color:var(--gray-600);">CodeIgniter:</span> <strong><?php echo CI_VERSION; ?></strong></div>
         <div><span style="color:var(--gray-600);">Base URL:</span> <strong><?php echo base_url(); ?></strong></div>

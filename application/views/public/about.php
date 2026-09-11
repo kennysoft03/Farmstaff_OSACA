@@ -3,7 +3,7 @@
   <div class="container">
     <h1 style="color:#fff;margin-bottom:12px;">About Farm Staff Registry</h1>
     <p style="color:rgba(255,255,255,.85);max-width:580px;margin:0 auto;font-size:1.05rem;line-height:1.7;">
-      A centralized digital platform by <?php echo OSACA_NAME; ?> to help agricultural employers register, manage, verify and monitor farm workers.
+      A centralised digital platform for agricultural employers and farm workers across Ondo State, Nigeria.
     </p>
   </div>
 </div>
@@ -25,7 +25,7 @@
       <div style="background:var(--green-pale);border-radius:16px;padding:40px;text-align:center;">
         <div style="font-size:4rem;margin-bottom:16px;">🌾</div>
         <h3 style="color:var(--green-dark);margin-bottom:12px;">Trust. Transparency.<br>Better Farms.</h3>
-        <p style="color:var(--gray-600);font-size:.9rem;margin:0;">Operated by <?php echo OSACA_NAME; ?></p>
+        <p style="color:var(--gray-600);font-size:.9rem;margin:0;">Built for Farmers and Agricultural Employers in Ondo State, Nigeria</p>
       </div>
     </div>
   </div>
@@ -69,9 +69,9 @@
     <?php
     $faqs = [
       ['q'=>'Who can register on the Farm Staff Registry?', 'a'=>'Any agricultural employer operating in Ondo State can register. Employers must provide their farm name, contact details and agree to the platform terms.'],
-      ['q'=>'Is it free to use?', 'a'=>'The Farm Staff Registry is operated by OSACA as a public service for the agricultural community of Ondo State.'],
+      ['q'=>'Is it free to use?', 'a'=>'The Farm Staff Registry is provided as a digital service for the agricultural community of Ondo State, Nigeria.'],
       ['q'=>'How is worker data kept confidential?', 'a'=>'Worker data is only accessible to registered and verified employers. Incident reports are reviewed by administrators before affecting public records. Workers cannot be identified without proper authorization.'],
-      ['q'=>'Can a worker dispute an incident report?', 'a'=>'Yes. Incident reports are reviewed by administrators before being accepted. Workers can appeal through their current employer or by contacting OSACA directly.'],
+      ['q'=>'Can a worker dispute an incident report?', 'a'=>'Yes. Incident reports are reviewed by platform administrators before being accepted. Workers can appeal through their current employer or by contacting the Farm Staff Registry support team directly.'],
       ['q'=>'How is the Trust Score calculated?', 'a'=>'The Trust Score starts at 50 and adjusts based on verified performance ratings, attendance records, skill verifications and accepted incident reports. Disciplinary points reduce over time as workers improve their conduct.'],
       ['q'=>'What happens if an employer submits a false report?', 'a'=>'Administrators review all incident reports and farm ratings for accuracy. False reports can result in employer account suspension.'],
     ];
@@ -109,7 +109,7 @@
       <div class="card" style="text-align:center;padding:24px;">
         <div style="font-size:2rem;margin-bottom:10px;">🏢</div>
         <h6>Office</h6>
-        <p style="font-size:.88rem;color:var(--gray-600);">OSACA Secretariat, Akure, Ondo State</p>
+        <p style="font-size:.88rem;color:var(--gray-600);">Farm Staff Registry Support Office, Akure, Ondo State</p>
       </div>
     </div>
   </div>

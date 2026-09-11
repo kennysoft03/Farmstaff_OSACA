@@ -9,7 +9,7 @@
       <div class="kt-footer__copyright">
         <?php echo date('Y'); ?> &nbsp;&copy;&nbsp;
         <a href="<?php echo site_url('/'); ?>" target="_blank" class="kt-link"><?php echo SITE_NAME; ?></a>
-        &nbsp;—&nbsp; <?php echo OSACA_NAME; ?>
+        &nbsp;—&nbsp; For Farmers in Ondo State, Nigeria
       </div>
       <div class="kt-footer__menu">
         <a href="<?php echo site_url('/'); ?>" target="_blank" class="kt-footer__menu-link kt-link">Public Site</a>

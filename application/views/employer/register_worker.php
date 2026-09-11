@@ -16,12 +16,18 @@
 
           <!-- Photo -->
           <div style="text-align:center;margin-bottom:28px;">
-            <div id="photo-preview" style="width:90px;height:90px;border-radius:50%;background:#f7f8fa;border:3px solid #e2e5ec;display:flex;align-items:center;justify-content:center;font-size:2.2rem;margin:0 auto 12px;overflow:hidden;">👤</div>
+            <div style="width:96px;height:96px;border-radius:50%;background:#f7f8fa;border:3px solid #e2e5ec;margin:0 auto 12px;overflow:hidden;display:flex;align-items:center;justify-content:center;">
+              <img id="photo-preview"
+                   src="<?php echo base_url('assets/images/avatar-placeholder.svg'); ?>"
+                   alt="Photo Preview"
+                   style="width:100%;height:100%;object-fit:cover;">
+              <div style="display:none;width:100%;height:100%;align-items:center;justify-content:center;font-size:2.5rem;">👤</div>
+            </div>
             <label style="cursor:pointer;">
               <span class="btn btn-label-brand btn-sm btn-bold"><i class="la la-camera"></i> Upload Photo</span>
-              <input type="file" name="photo" accept="image/*" class="photo-input" data-preview="photo-preview" style="display:none;">
+              <input type="file" id="worker-photo-input" name="photo" accept="image/jpeg,image/png,image/gif" style="display:none;">
             </label>
-            <div class="form-text text-muted" style="font-size:.78rem;">JPEG/PNG, max 2MB</div>
+            <div class="form-text text-muted" style="font-size:.78rem;margin-top:4px;">JPEG/PNG, max 2MB</div>
           </div>
 
           <div class="kt-section__title" style="font-size:.9rem;font-weight:700;color:#595d6e;border-bottom:1px solid #ebedf2;padding-bottom:8px;margin-bottom:18px;">Personal Information</div>
@@ -147,3 +153,35 @@
     </div>
   </div>
 </div>
+
+<script>
+// Photo preview — inline so it runs before footer bundle
+document.getElementById('worker-photo-input').addEventListener('change', function () {
+    var file = this.files && this.files[0];
+    if (!file) return;
+
+    // Validate type
+    var allowed = ['image/jpeg','image/jpg','image/png','image/gif'];
+    if (allowed.indexOf(file.type) === -1) {
+        alert('Please select a JPEG or PNG image.');
+        this.value = '';
+        return;
+    }
+    // Validate size (2MB)
+    if (file.size > 2 * 1024 * 1024) {
+        alert('Image must be smaller than 2MB.');
+        this.value = '';
+        return;
+    }
+
+    var reader = new FileReader();
+    reader.onload = function (e) {
+        var img = document.getElementById('photo-preview');
+        img.src = e.target.result;
+        img.style.display = 'block';
+        // Hide the fallback emoji div if visible
+        if (img.nextElementSibling) img.nextElementSibling.style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+});
+</script>

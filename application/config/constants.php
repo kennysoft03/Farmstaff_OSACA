@@ -47,7 +47,7 @@ define('SITE_NAME',         'Farm Staff Registry');
 define('SITE_TAGLINE',      'Trust. Transparency. Better Farms.');
 define('SITE_EMAIL',        'info@farmstaff.ng');
 define('SITE_PHONE',        '+234 800 FARMSTAFF');
-define('OSACA_NAME',        'Ondo State Agricultural Commodities Association (OSACA)');
+define('OSACA_NAME',        'Ondo State Farm Staff Registry');
 define('UPLOAD_WORKERS',    'uploads/workers/');
 define('UPLOAD_INCIDENTS',  'uploads/incidents/');
 define('UPLOAD_EMPLOYERS',  'uploads/employers/');
