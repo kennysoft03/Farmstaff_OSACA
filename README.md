@@ -159,7 +159,7 @@ Before you begin, ensure you have:
 ### Step 1 — Clone the Repository
 
 ```bash
-git clone https://github.com/kennysoft03/Farmstaff_OSACA.git
+git clone https://github.com/kennysoft03/Farmstaff_AKD.git
 ```
 
 For **Laragon on Windows**, clone directly into the Laragon `www` folder so the virtual host is created automatically:
@@ -545,7 +545,7 @@ https://doi.org/10.5281/zenodo.22681601
                    for Agricultural Workforce Verification and Trust Scoring}},
   year         = {2026},
   publisher    = {Farm Staff Registry — For Farmers in Ondo State, Nigeria},
-  url          = {https://github.com/kennysoft03/Farmstaff_OSACA},
+  url          = {https://github.com/kennysoft03/Farmstaff_AKD},
   doi          = {10.5281/zenodo.22681601},
   note         = {Version 1.0.0}
 }
